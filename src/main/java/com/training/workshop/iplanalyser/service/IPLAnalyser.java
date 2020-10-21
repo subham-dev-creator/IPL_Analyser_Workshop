@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,7 @@ public class IPLAnalyser {
 
     }
 
+    //
     public double maxStrikingRates(String mostRunsCsvFilePath) throws IPLAnalyserException {
         ArrayList<IPLMostRunsCSV> list = mostRuns(mostRunsCsvFilePath);
         double maxStrikingRate = list.stream().map(x -> Double.parseDouble(x.strikeRate)).max(Double::compare).get();
@@ -63,5 +65,28 @@ public class IPLAnalyser {
         for (IPLMostRunsCSV data : maxStrikeRateList)
             System.out.println(data.player);
         return maxStrikingRate;
+    }
+
+    // Returns Name Of Player With Max number of 6s Hit
+    public String playerWithMaxSixHit(String mostRunsCsvFilePath) throws IPLAnalyserException {
+        ArrayList<IPLMostRunsCSV> list = mostRuns(mostRunsCsvFilePath);
+        ArrayList<IPLMostRunsCSV> sortedMax6 = (ArrayList<IPLMostRunsCSV>) list.stream()
+                .sorted((player1, player2) -> Integer.compare(player1.sixes, player2.sixes))
+                .collect(Collectors.toList());
+        Collections.reverse(sortedMax6);
+        System.out.println("Player with maximum sixes is");
+        System.out.println(sortedMax6.get(0).player + " with total number of sixes " + sortedMax6.get(0).sixes);
+        return sortedMax6.get(0).player;
+    }
+
+    // Retuns Player Name With Max Four Hits
+    public String playerWithMaxFourHit(String mostRunsCsvFilePath) throws IPLAnalyserException {
+        ArrayList<IPLMostRunsCSV> list = mostRuns(mostRunsCsvFilePath);
+        ArrayList<IPLMostRunsCSV> sortedMax4 = (ArrayList<IPLMostRunsCSV>) list.stream().sorted((player1, player2) -> {
+            return player2.fours - player1.fours;
+        }).collect(Collectors.toList());
+        System.out.println("Players with maximum number of 4s is");
+        System.out.println(sortedMax4.get(0).player + " with total number of fours " + sortedMax4.get(0).fours);
+        return sortedMax4.get(0).player;
     }
 }

@@ -1,6 +1,7 @@
 package com.training.workshop.iplanalyser.test;
 
 import com.training.workshop.iplanalyser.exception.IPLAnalyserException;
+import com.training.workshop.iplanalyser.models.IPLMostRunsCSV;
 import com.training.workshop.iplanalyser.service.IPLAnalyser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,6 +27,21 @@ public class IPLAnalyserTest {
         IPLAnalyser iplLeagueAnalyser = new IPLAnalyser();
         double maxStrikeRate = iplLeagueAnalyser.maxStrikingRates(MOST_RUNS_CSV_FILE_PATH);
         Assert.assertEquals(333.33, maxStrikeRate, 0.0);
+    }
+
+    // UC 3
+    @Test
+    public void playerWithMaximum6Test() throws IPLAnalyserException {
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser();
+        String playerWithMax6 = iplLeagueAnalyser.playerWithMaxSixHit(MOST_RUNS_CSV_FILE_PATH);
+        Assert.assertEquals("Andre Russell", playerWithMax6);
+    }
+
+    @Test
+    public void playerWithMaximum4Test() throws IPLAnalyserException {
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser();
+        String playerWithMax4 = iplLeagueAnalyser.playerWithMaxFourHit(MOST_RUNS_CSV_FILE_PATH);
+        Assert.assertEquals("Shikhar Dhawan", playerWithMax4);
     }
 
 }
