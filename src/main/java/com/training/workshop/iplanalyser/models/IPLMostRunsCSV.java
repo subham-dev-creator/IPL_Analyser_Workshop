@@ -25,7 +25,7 @@ public class IPLMostRunsCSV {
     public String average;
 
     @CsvBindByName(column = "SR", required = true)
-    public double strikeRate;
+    public String strikeRate;
 
     @CsvBindByName(column = "100", required = true)
     public int hundreds;

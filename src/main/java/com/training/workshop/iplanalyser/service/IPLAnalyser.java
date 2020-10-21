@@ -53,4 +53,15 @@ public class IPLAnalyser {
         }
 
     }
+
+    public double maxStrikingRates(String mostRunsCsvFilePath) throws IPLAnalyserException {
+        ArrayList<IPLMostRunsCSV> list = mostRuns(mostRunsCsvFilePath);
+        double maxStrikingRate = list.stream().map(x -> Double.parseDouble(x.strikeRate)).max(Double::compare).get();
+        ArrayList<IPLMostRunsCSV> maxStrikeRateList = (ArrayList<IPLMostRunsCSV>) list.stream()
+                .filter(x -> x.strikeRate.equals(Double.toString(maxStrikingRate))).collect(Collectors.toList());
+        System.out.println("Max Strike Rates Player");
+        for (IPLMostRunsCSV data : maxStrikeRateList)
+            System.out.println(data.player);
+        return maxStrikingRate;
+    }
 }
