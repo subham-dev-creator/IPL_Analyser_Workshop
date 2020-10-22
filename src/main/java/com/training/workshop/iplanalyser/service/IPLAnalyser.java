@@ -102,4 +102,12 @@ public class IPLAnalyser {
         List<IPLMostRunsCSV> list = iplMostRunsList.stream().sorted(compareByName).collect(Collectors.toList());
         return  list.get(list.size()-1).player;
     }
+
+    public String playerWithMostRunsAndBestAvg() {
+        Comparator<IPLMostRunsCSV> compare = Comparator
+                .comparing(IPLMostRunsCSV::getRuns)
+                .thenComparing(IPLMostRunsCSV::getAverage);
+        List<IPLMostRunsCSV> list = iplMostRunsList.stream().sorted(compare).collect(Collectors.toList());
+        return  list.get(list.size()-1).player;
+    }
 }

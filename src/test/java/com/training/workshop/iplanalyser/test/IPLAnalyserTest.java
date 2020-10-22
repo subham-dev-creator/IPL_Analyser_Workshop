@@ -60,4 +60,13 @@ public class IPLAnalyserTest {
         Assert.assertEquals("MS Dhoni",playerWithBestBattingRate);
     }
 
+    // UC 6
+    @Test
+    public void playerWithMostRunsAndBestAverage() throws IPLAnalyserException {
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(MOST_RUNS_CSV_FILE_PATH);
+        String playerWithMostRunsAndBestAvg = iplLeagueAnalyser.playerWithMostRunsAndBestAvg();
+        Assert.assertEquals("David Warner",playerWithMostRunsAndBestAvg);
+    }
+    
+
 }
