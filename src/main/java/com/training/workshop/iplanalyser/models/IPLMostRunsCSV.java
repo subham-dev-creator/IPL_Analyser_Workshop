@@ -59,4 +59,17 @@ public class IPLMostRunsCSV {
     public IPLMostRunsCSV(){
     }
 
+    public Double getAverage() {
+        if(average.equals("-"))
+            return 0.0;
+        return Double.parseDouble(average);
+    }
+
+    public double getStrikeRate() {
+        return strikeRate;
+    }
+
+    public void setStrikeRate(double strikeRate) {
+        this.strikeRate = strikeRate;
+    }
 }

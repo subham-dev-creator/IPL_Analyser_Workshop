@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -15,6 +16,7 @@ import com.training.workshop.iplanalyser.models.IPLMostRunsCSV;
 
 public class IPLAnalyser {
     Map<String,IPLMostRunsCSV> iplMostRunMap;
+    ArrayList<IPLMostRunsCSV> iplMostRunsList;
 
     public IPLAnalyser(String mostRunsCsvFilePath) throws IPLAnalyserException {
         Map<String, IPLMostRunsCSV> iplMap = new HashMap<>();
@@ -28,6 +30,7 @@ public class IPLAnalyser {
                     .forEach(iplCSVObj -> iplMap.put(iplCSVObj.player, new IPLMostRunsCSV(iplCSVObj)));
 
             this.iplMostRunMap = iplMap;
+            this.iplMostRunsList= new ArrayList<>(iplMostRunMap.values());
         } catch (IOException | CSVBuilderException e) {
             throw new IPLAnalyserException(e.getMessage(), IPLAnalyserException.ExceptionType.INCORRECT_PATH);
         }
@@ -36,7 +39,6 @@ public class IPLAnalyser {
 
     // Returns Top Batting Avg
     public double topBattingAvg() throws IPLAnalyserException {
-        ArrayList<IPLMostRunsCSV> iplMostRunsList = new ArrayList<>(iplMostRunMap.values());
         double maxAvgScore = iplMostRunsList.stream().filter(x -> !x.average.equals("-"))
                                 .map(x -> Double.parseDouble(x.average))
                                 .max(Double::compare).get();
@@ -49,7 +51,6 @@ public class IPLAnalyser {
 
     // Max
     public double maxStrikingRates() throws IPLAnalyserException {
-        ArrayList<IPLMostRunsCSV> iplMostRunsList = new ArrayList<>(iplMostRunMap.values());
         double maxStrikingRate = iplMostRunsList.stream().map(x -> Double.parseDouble(String.valueOf(x.strikeRate))).max(Double::compare).get();
         ArrayList<IPLMostRunsCSV> maxStrikeRateList = (ArrayList<IPLMostRunsCSV>) iplMostRunsList.stream()
                 .filter(x -> String.valueOf(x.strikeRate).equals(Double.toString(maxStrikingRate))).collect(Collectors.toList());
@@ -61,7 +62,6 @@ public class IPLAnalyser {
 
     // Returns Name Of Player With Max number of 6s Hit
     public String playerWithMaxSixHit() throws IPLAnalyserException {
-        ArrayList<IPLMostRunsCSV> iplMostRunsList = new ArrayList<>(iplMostRunMap.values());
         ArrayList<IPLMostRunsCSV> sortedMax6 = (ArrayList<IPLMostRunsCSV>) iplMostRunsList.stream()
                 .sorted((player1, player2) -> Integer.compare(player1.sixes, player2.sixes))
                 .collect(Collectors.toList());
@@ -73,7 +73,6 @@ public class IPLAnalyser {
 
     // Returns Player Name With Max Four Hits
     public String playerWithMaxFourHit() throws IPLAnalyserException {
-        ArrayList<IPLMostRunsCSV> iplMostRunsList = new ArrayList<>(iplMostRunMap.values());
         ArrayList<IPLMostRunsCSV> sortedMax4 = (ArrayList<IPLMostRunsCSV>) iplMostRunsList.stream().sorted((player1, player2) -> {
             return player2.fours - player1.fours;
         }).collect(Collectors.toList());
@@ -84,7 +83,6 @@ public class IPLAnalyser {
 
     // Returns Player Name With Best Performance
     public String playerWithBestPerformace() throws IPLAnalyserException {
-        ArrayList<IPLMostRunsCSV> iplMostRunsList = new ArrayList<>(iplMostRunMap.values());
         double bestPerformance=0;
         for(IPLMostRunsCSV pl : iplMostRunsList) {
             pl.performanceFactor = pl.strikeRate * 0.2 + pl.sixes * 0.5 + pl.fours * 0.3;
@@ -97,4 +95,11 @@ public class IPLAnalyser {
         return result;
     }
 
+    public String playerWithBestAverageAndStrikingRate() {
+        Comparator<IPLMostRunsCSV> compareByName = Comparator
+                .comparing(IPLMostRunsCSV::getAverage)
+                .thenComparing(IPLMostRunsCSV::getStrikeRate);
+        List<IPLMostRunsCSV> list = iplMostRunsList.stream().sorted(compareByName).collect(Collectors.toList());
+        return  list.get(list.size()-1).player;
+    }
 }
