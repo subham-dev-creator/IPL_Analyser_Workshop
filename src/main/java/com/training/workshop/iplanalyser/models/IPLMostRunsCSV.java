@@ -25,7 +25,7 @@ public class IPLMostRunsCSV {
     public String average;
 
     @CsvBindByName(column = "SR", required = true)
-    public String strikeRate;
+    public double strikeRate;
 
     @CsvBindByName(column = "100", required = true)
     public int hundreds;
@@ -39,7 +39,24 @@ public class IPLMostRunsCSV {
     @CsvBindByName(column = "6s", required = true)
     public int sixes;
 
-    public IPLMostRunsCSV() {
+    public double performanceFactor;
+
+    public IPLMostRunsCSV(IPLMostRunsCSV iplMostRunsCSV) {
+        player = iplMostRunsCSV.player;
+        match = iplMostRunsCSV.match;
+        innings = iplMostRunsCSV.innings;
+        average = iplMostRunsCSV.average;
+        fifties = iplMostRunsCSV.fifties;
+        fours = iplMostRunsCSV.fours;
+        sixes = iplMostRunsCSV.sixes;
+        highestScore = iplMostRunsCSV.highestScore;
+        hundreds = iplMostRunsCSV.hundreds;
+        notOut = iplMostRunsCSV.notOut;
+        runs = iplMostRunsCSV.runs;
+        strikeRate = iplMostRunsCSV.strikeRate;
+    }
+
+    public IPLMostRunsCSV(){
     }
 
 }
