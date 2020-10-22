@@ -92,7 +92,9 @@ public class IPLAnalyser {
         }
 
         double finalBestPerformance = bestPerformance;
-        return iplMostRunsList.stream().filter(x -> x.performanceFactor== finalBestPerformance).collect(Collectors.toList()).get(0).player;
+        String result =iplMostRunsList.stream().filter(x -> x.performanceFactor== finalBestPerformance).collect(Collectors.toList()).get(0).player;
+        System.out.println("Best Performing Batsman is : " + result);
+        return result;
     }
 
 }
