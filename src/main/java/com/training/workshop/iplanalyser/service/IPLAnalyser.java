@@ -176,4 +176,14 @@ public class IPLAnalyser {
         return  result;
     }
 
+    // Returns Player name With Great Bowling Average And Best Striking Rate
+    public String bestBowlerWithAverageAndStrikingRate() {
+        Comparator<IPLMostWicketsCSV> compare = Comparator
+                .comparing(IPLMostWicketsCSV::getAverage)
+                .thenComparing(IPLMostWicketsCSV::getStrikeRate);
+        List<IPLMostWicketsCSV> list = iplMostWicketsList.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Best Bowler With Great Bowling Average And Best Striking Rate : " + list.get(list.size()-1).getPlayer());
+        return  list.get(list.size()-1).getPlayer();
+    }
+
 }
