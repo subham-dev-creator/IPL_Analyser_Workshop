@@ -24,7 +24,6 @@ public class IPLAnalyser {
     public enum PlayerType {BATSMAN, BOWLER}
 
     public IPLAnalyser(PlayerType pl,String CsvFilePath) throws IPLAnalyserException {
-
         if(pl==PlayerType.BATSMAN) {
             Map<String, IPLMostRunsCSV> iplMap = new HashMap<>();
             try (Reader reader = Files.newBufferedReader(Paths.get(CsvFilePath))) {
@@ -120,7 +119,7 @@ public class IPLAnalyser {
         return result;
     }
 
-    // Retuns Player With Best Average And Striking Rates
+    // Returns Player With Best Average And Striking Rates
     public String playerWithBestAverageAndStrikingRate() {
         Comparator<IPLMostRunsCSV> compareByName = Comparator
                 .comparing(IPLMostRunsCSV::getAverage)
@@ -129,7 +128,7 @@ public class IPLAnalyser {
         return  list.get(list.size()-1).player;
     }
 
-    // Retuns Player Name Which Most Runs And Best Average
+    // Returns Player Name Which Most Runs And Best Average
     public String playerWithMostRunsAndBestAvg() {
         Comparator<IPLMostRunsCSV> compare = Comparator
                 .comparing(IPLMostRunsCSV::getRuns)
@@ -138,21 +137,30 @@ public class IPLAnalyser {
         return  list.get(list.size()-1).player;
     }
 
-    // Retuns Top Bowling Average
-    public Double TopBowlingAvg() {
+    // Returns Top Bowling Average
+    public Double topBowlingAvg() {
         Comparator<IPLMostWicketsCSV> compare = Comparator
                 .comparing(IPLMostWicketsCSV::getAverage);
         List<IPLMostWicketsCSV> list = iplMostWicketsList.stream().sorted(compare).collect(Collectors.toList());
         return  list.get(list.size()-1).getAverage();
     }
 
-    // Retuns Top Striking Rate For Bowler
-    public Double TopStrikingRateBowling() {
+    // Returns Top Striking Rate For Bowler
+    public Double topStrikingRateBowling() {
         Comparator<IPLMostWicketsCSV> compare = Comparator
                 .comparing(IPLMostWicketsCSV::getAverage);
         List<IPLMostWicketsCSV> list = iplMostWicketsList.stream().sorted(compare).collect(Collectors.toList());
         System.out.println("Top Striking Rate For Bowler : " + list.get(list.size()-1).getStrikeRate());
         return  list.get(list.size()-1).getStrikeRate();
+    }
+
+    // Returns Best Economic Bowler Name
+    public String bestEconomyBowler() {
+        Comparator<IPLMostWicketsCSV> compare = Comparator
+                .comparing(IPLMostWicketsCSV::getEconomy);
+        List<IPLMostWicketsCSV> list = iplMostWicketsList.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Best Economic Bowler is : " + list.get(0).getPlayer());
+        return  list.get(0).getPlayer();
     }
 
 }

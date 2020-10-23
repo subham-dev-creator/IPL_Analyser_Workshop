@@ -73,7 +73,7 @@ public class IPLAnalyserTest {
     @Test
     public void TopBowlingAverage() throws IPLAnalyserException {
         IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
-        Double topBowlingAvg = iplLeagueAnalyser.TopBowlingAvg();
+        Double topBowlingAvg = iplLeagueAnalyser.topBowlingAvg();
         Assert.assertEquals(166.0,topBowlingAvg,0.0);
     }
 
@@ -81,8 +81,16 @@ public class IPLAnalyserTest {
     @Test
     public void TopStrkingRateForBowler() throws IPLAnalyserException{
         IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
-        Double topStrikingRate = iplLeagueAnalyser.TopStrikingRateBowling();
+        Double topStrikingRate = iplLeagueAnalyser.topStrikingRateBowling();
         Assert.assertEquals(120.0,topStrikingRate,0.0);
+    }
+
+    // UC 9
+    @Test
+    public void BestEconomyBowler() throws IPLAnalyserException{
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
+        String playerWithBestEco = iplLeagueAnalyser.bestEconomyBowler();
+        Assert.assertEquals("Shivam Dube",playerWithBestEco);
     }
 
 }
