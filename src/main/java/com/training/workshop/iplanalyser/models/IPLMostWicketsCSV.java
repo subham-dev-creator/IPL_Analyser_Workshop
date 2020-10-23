@@ -36,6 +36,16 @@ public class IPLMostWicketsCSV {
     @CsvBindByName(column = "5w", required = true)
     public int fiveWickets;
 
+    public double performanceFactor;
+
+    public double getPerformanceFactor() {
+        return performanceFactor;
+    }
+
+    public void setPerformanceFactor(double performanceFactor) {
+        this.performanceFactor = performanceFactor;
+    }
+
     public IPLMostWicketsCSV(IPLMostWicketsCSV iplCSVObj) {
         this.player = iplCSVObj.player;
         this.match = iplCSVObj.match;

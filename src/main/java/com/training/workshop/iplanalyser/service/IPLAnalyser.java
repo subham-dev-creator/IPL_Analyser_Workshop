@@ -163,4 +163,17 @@ public class IPLAnalyser {
         return  list.get(0).getPlayer();
     }
 
+    // Returns best Bowler With Striking Rate And Five Wickets And Four Wickets (Performance Factor)
+    public String bestBowlerStrikingRateWith5WicketsAnd4Wickets() {
+        double bestPerformance=0;
+        for(IPLMostWicketsCSV pl : iplMostWicketsList) {
+            pl.performanceFactor = pl.getStrikeRate() * 0.2 + pl.getFiveWickets() * 0.5 + pl.getFourWickets() * 0.3;
+            bestPerformance=Math.max(pl.performanceFactor,bestPerformance);
+        }
+        double finalBestPerformance = bestPerformance;
+        String result =iplMostWicketsList.stream().filter(x -> x.performanceFactor== finalBestPerformance).collect(Collectors.toList()).get(0).player;
+        System.out.println("Best Striking Rate With  Bowler is : " + result);
+        return  result;
+    }
+
 }
