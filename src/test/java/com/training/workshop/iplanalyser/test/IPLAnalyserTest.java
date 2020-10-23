@@ -77,4 +77,12 @@ public class IPLAnalyserTest {
         Assert.assertEquals(166.0,topBowlingAvg,0.0);
     }
 
+    //UC 8
+    @Test
+    public void TopStrkingRateForBowler() throws IPLAnalyserException{
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
+        Double topStrikingRate = iplLeagueAnalyser.TopStrikingRateBowling();
+        Assert.assertEquals(120.0,topStrikingRate,0.0);
+    }
+
 }

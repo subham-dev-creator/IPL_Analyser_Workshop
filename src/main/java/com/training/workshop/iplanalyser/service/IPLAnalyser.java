@@ -23,7 +23,6 @@ public class IPLAnalyser {
 
     public enum PlayerType {BATSMAN, BOWLER}
 
-
     public IPLAnalyser(PlayerType pl,String CsvFilePath) throws IPLAnalyserException {
 
         if(pl==PlayerType.BATSMAN) {
@@ -147,5 +146,13 @@ public class IPLAnalyser {
         return  list.get(list.size()-1).getAverage();
     }
 
+    // Retuns Top Striking Rate For Bowler
+    public Double TopStrikingRateBowling() {
+        Comparator<IPLMostWicketsCSV> compare = Comparator
+                .comparing(IPLMostWicketsCSV::getAverage);
+        List<IPLMostWicketsCSV> list = iplMostWicketsList.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Top Striking Rate For Bowler : " + list.get(list.size()-1).getStrikeRate());
+        return  list.get(list.size()-1).getStrikeRate();
+    }
 
 }

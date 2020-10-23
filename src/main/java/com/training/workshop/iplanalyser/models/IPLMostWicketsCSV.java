@@ -118,8 +118,10 @@ public class IPLMostWicketsCSV {
         this.economy = economy;
     }
 
-    public String getStrikeRate() {
-        return strikeRate;
+    public Double getStrikeRate() {
+        if(strikeRate.equals("-"))
+            return 0.0;
+        return Double.parseDouble(strikeRate);
     }
 
     public void setStrikeRate(String strikeRate) {
