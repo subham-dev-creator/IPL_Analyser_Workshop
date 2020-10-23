@@ -109,4 +109,12 @@ public class IPLAnalyserTest {
         Assert.assertEquals("Krishnappa Gowtham",player);
     }
 
+    // UC 12
+    @Test
+    public void bowlerWithMaxWicketsAndBestBowlingAvg() throws IPLAnalyserException {
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
+        String player = iplLeagueAnalyser.bestBowlerWithMaxWicketsAndBestBowlingAvg();
+        Assert.assertEquals("Imran Tahir",player);
+    }
+
 }

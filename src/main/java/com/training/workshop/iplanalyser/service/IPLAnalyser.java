@@ -186,4 +186,13 @@ public class IPLAnalyser {
         return  list.get(list.size()-1).getPlayer();
     }
 
+    public String bestBowlerWithMaxWicketsAndBestBowlingAvg() {
+        Comparator<IPLMostWicketsCSV> compare = Comparator
+                .comparing(IPLMostWicketsCSV::getWickets)
+                .thenComparing(IPLMostWicketsCSV::getAverage);
+        List<IPLMostWicketsCSV> list = iplMostWicketsList.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Best Bowler With Max Wickets And Best Avg : " + list.get(list.size()-1).getPlayer());
+        return  list.get(list.size()-1).getPlayer();
+    }
+
 }
