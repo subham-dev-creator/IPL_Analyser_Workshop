@@ -128,4 +128,17 @@ public class IPLAnalyserTest {
         Assert.assertEquals("Andre Russell",player);
     }
 
+    // UC 14
+    @Test
+    public void playerBestAllRounder() throws IPLAnalyserException {
+        IPLAnalyser iplBattingAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN,MOST_RUNS_CSV_FILE_PATH);
+        IPLAnalyser iplBowlingAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.ALLROUNDER,iplBattingAnalyser,iplBowlingAnalyser);
+
+        String player = iplLeagueAnalyser.bestAllRounder();
+        Assert.assertEquals("Andre Russell",player);
+
+    }
+
+
 }

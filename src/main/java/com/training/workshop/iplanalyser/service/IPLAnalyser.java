@@ -24,7 +24,6 @@ public class IPLAnalyser {
     HashMap<String , IPLAllRounder> iplAllRounderMap;
     ArrayList<IPLAllRounder> iplAllRounderList;
 
-
     public enum PlayerType {BATSMAN,BOWLER,ALLROUNDER}
 
     public IPLAnalyser(PlayerType pl,String CsvFilePath) throws IPLAnalyserException {
@@ -222,15 +221,18 @@ public class IPLAnalyser {
                 .comparing(IPLAllRounder::getAverageBatting)
                 .thenComparing(IPLAllRounder::getAverageBowling);
         List<IPLAllRounder> list = iplAllRounderList.stream().sorted(compare).collect(Collectors.toList());
-        System.out.println("Best Bowler With Max Wickets And Best Avg : " + list.get(list.size()-1).getPlayer());
+        System.out.println("Best Player Name With Best Batting Avg And Bowling Avg : " + list.get(list.size()-1).getPlayer());
         return list.get(list.size()-1).getPlayer();
     }
-    public static void main(String[] args) throws IPLAnalyserException {
-        String MOST_RUNS_CSV_FILE_PATH = "C:\\Users\\I524735\\IdeaProjects\\IPL_Analyser_Workshop\\src\\test\\resources\\WP_IPL2019FactsheetMostRuns.csv";
-        String MOST_WICKETS_CSV_FILE_PATH = "C:\\Users\\I524735\\IdeaProjects\\IPL_Analyser_Workshop\\src\\test\\resources\\WP_IPL2019FactsheetMostWkts.csv";
-        IPLAnalyser Bow = new IPLAnalyser(PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
-        IPLAnalyser Bat = new IPLAnalyser(PlayerType.BATSMAN,MOST_RUNS_CSV_FILE_PATH);
 
+//  Returns Name Of Best All Rounder
+    public String bestAllRounder() {
+        Comparator<IPLAllRounder> compare = Comparator
+                .comparing(IPLAllRounder::getRunsBatting)
+                .thenComparing(IPLAllRounder::getWickets);
+        List<IPLAllRounder> list = iplAllRounderList.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Best All Rounder Player : " + list.get(list.size()-1).getPlayer());
+        return list.get(list.size()-1).getPlayer();
     }
 
 
