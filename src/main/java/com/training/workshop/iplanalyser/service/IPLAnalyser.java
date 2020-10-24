@@ -12,20 +12,24 @@ import java.util.stream.StreamSupport;
 import com.training.workshop.iplanalyser.Utility.CSVBuilderException;
 import com.training.workshop.iplanalyser.Utility.CSVBuilderFactory;
 import com.training.workshop.iplanalyser.exception.IPLAnalyserException;
+import com.training.workshop.iplanalyser.models.IPLAllRounder;
 import com.training.workshop.iplanalyser.models.IPLMostRunsCSV;
 import com.training.workshop.iplanalyser.models.IPLMostWicketsCSV;
 
 public class IPLAnalyser {
-    Map<String,IPLMostRunsCSV> iplMostRunMap;
-    Map<String,IPLMostWicketsCSV> iplMostWicketMap;
+    HashMap<String,IPLMostRunsCSV> iplMostRunMap;
+    HashMap<String,IPLMostWicketsCSV> iplMostWicketMap;
     ArrayList<IPLMostRunsCSV> iplMostRunsList;
     ArrayList<IPLMostWicketsCSV> iplMostWicketsList;
+    HashMap<String , IPLAllRounder> iplAllRounderMap;
+    ArrayList<IPLAllRounder> iplAllRounderList;
 
-    public enum PlayerType {BATSMAN, BOWLER}
+
+    public enum PlayerType {BATSMAN,BOWLER,ALLROUNDER}
 
     public IPLAnalyser(PlayerType pl,String CsvFilePath) throws IPLAnalyserException {
         if(pl==PlayerType.BATSMAN) {
-            Map<String, IPLMostRunsCSV> iplMap = new HashMap<>();
+            HashMap<String, IPLMostRunsCSV> iplMap = new HashMap<>();
             try (Reader reader = Files.newBufferedReader(Paths.get(CsvFilePath))) {
                 Iterator iplIterator = CSVBuilderFactory.createCSVBuilder().getCSVFileIterator(reader, IPLMostRunsCSV.class);
                 Iterable<IPLMostRunsCSV> iplCSV = () -> iplIterator;
@@ -42,7 +46,7 @@ public class IPLAnalyser {
             }
         }
         else{
-            Map<String, IPLMostWicketsCSV> iplMap = new HashMap<>();
+            HashMap<String, IPLMostWicketsCSV> iplMap = new HashMap<>();
             try (Reader reader = Files.newBufferedReader(Paths.get(CsvFilePath))) {
                 Iterator iplIterator = CSVBuilderFactory.createCSVBuilder().getCSVFileIterator(reader, IPLMostWicketsCSV.class);
                 Iterable<IPLMostWicketsCSV> iplCSV = () -> iplIterator;
@@ -57,6 +61,22 @@ public class IPLAnalyser {
             } catch (IOException | CSVBuilderException e) {
                 throw new IPLAnalyserException(e.getMessage(), IPLAnalyserException.ExceptionType.INCORRECT_PATH);
             }
+        }
+    }
+    public IPLAnalyser(PlayerType type,IPLAnalyser Bat,IPLAnalyser Bow){
+        if(type==PlayerType.ALLROUNDER) {
+            HashMap<String, IPLAllRounder> allRounderMap = new HashMap<>();
+
+            for (IPLMostRunsCSV n : Bat.iplMostRunsList) {
+                if (Bow.iplMostWicketMap.get(n.getPlayer()) != null) {
+                    IPLMostWicketsCSV bowlingPlayer = Bow.iplMostWicketMap.get(n.getPlayer());
+                    IPLAllRounder ip = new IPLAllRounder(n.getPlayer(), n.getMatch(), n.getInnings(), n.getNotOut(), n.getRuns(), n.getHighestScore(), n.getAverage(), n.getStrikeRate(), n.getHundreds(), n.getFifties(), n.getFours(), n.getSixes(), bowlingPlayer.getOvers(), bowlingPlayer.getRuns(), bowlingPlayer.getWickets(), bowlingPlayer.getAverage(), bowlingPlayer.getEconomy(), bowlingPlayer.getStrikeRate(), bowlingPlayer.getFourWickets(), bowlingPlayer.getFiveWickets());
+                    allRounderMap.put(ip.player, ip);
+                }
+            }
+            this.iplAllRounderMap = allRounderMap;
+            this.iplAllRounderList = new ArrayList<>(iplAllRounderMap.values());
+
         }
     }
 
@@ -186,6 +206,7 @@ public class IPLAnalyser {
         return  list.get(list.size()-1).getPlayer();
     }
 
+    // Returns Bowler Name With Max Wickets And Best Avg
     public String bestBowlerWithMaxWicketsAndBestBowlingAvg() {
         Comparator<IPLMostWicketsCSV> compare = Comparator
                 .comparing(IPLMostWicketsCSV::getWickets)
@@ -194,5 +215,23 @@ public class IPLAnalyser {
         System.out.println("Best Bowler With Max Wickets And Best Avg : " + list.get(list.size()-1).getPlayer());
         return  list.get(list.size()-1).getPlayer();
     }
+
+//     Returns Player Name With Best Batting Avg And Bowling Avg
+    public String playerWithBestBattingAndBowlingAvg() {
+        Comparator<IPLAllRounder> compare = Comparator
+                .comparing(IPLAllRounder::getAverageBatting)
+                .thenComparing(IPLAllRounder::getAverageBowling);
+        List<IPLAllRounder> list = iplAllRounderList.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Best Bowler With Max Wickets And Best Avg : " + list.get(list.size()-1).getPlayer());
+        return list.get(list.size()-1).getPlayer();
+    }
+    public static void main(String[] args) throws IPLAnalyserException {
+        String MOST_RUNS_CSV_FILE_PATH = "C:\\Users\\I524735\\IdeaProjects\\IPL_Analyser_Workshop\\src\\test\\resources\\WP_IPL2019FactsheetMostRuns.csv";
+        String MOST_WICKETS_CSV_FILE_PATH = "C:\\Users\\I524735\\IdeaProjects\\IPL_Analyser_Workshop\\src\\test\\resources\\WP_IPL2019FactsheetMostWkts.csv";
+        IPLAnalyser Bow = new IPLAnalyser(PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
+        IPLAnalyser Bat = new IPLAnalyser(PlayerType.BATSMAN,MOST_RUNS_CSV_FILE_PATH);
+
+    }
+
 
 }

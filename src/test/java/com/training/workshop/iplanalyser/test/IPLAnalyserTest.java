@@ -117,4 +117,15 @@ public class IPLAnalyserTest {
         Assert.assertEquals("Imran Tahir",player);
     }
 
+    // UC 13
+    @Test
+    public void playerWithBestBattingAndBowlingAverage() throws IPLAnalyserException {
+        IPLAnalyser iplBattingAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN,MOST_RUNS_CSV_FILE_PATH);
+        IPLAnalyser iplBowlingAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BOWLER,MOST_WICKETS_CSV_FILE_PATH);
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.ALLROUNDER,iplBattingAnalyser,iplBowlingAnalyser);
+
+        String player = iplLeagueAnalyser.playerWithBestBattingAndBowlingAvg();
+        Assert.assertEquals("Andre Russell",player);
+    }
+
 }
