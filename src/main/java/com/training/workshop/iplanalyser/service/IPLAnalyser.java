@@ -235,5 +235,16 @@ public class IPLAnalyser {
         return list.get(list.size()-1).getPlayer();
     }
 
+//  Returns Name Of Player Who Hit Max Number OF Hundred And Have Best Batting Avg
+    public String playerWithMaxHundredAndBattingAvg() {
+        Comparator<IPLMostRunsCSV> compare = Comparator
+                .comparing(IPLMostRunsCSV::getHundreds)
+                .thenComparing(IPLMostRunsCSV::getAverage);
+        List<IPLMostRunsCSV> list = iplMostRunsList.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Player With Hit Max Number OF Hundred And Have Best Batting Avg : " + list.get(list.size()-1).player);
+        return  list.get(list.size()-1).player;
+    }
+
+
 
 }
