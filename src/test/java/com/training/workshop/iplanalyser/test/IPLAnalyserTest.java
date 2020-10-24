@@ -144,9 +144,16 @@ public class IPLAnalyserTest {
     @Test
     public void playerWithMaxHundredAndBestBattingAverage() throws IPLAnalyserException {
         IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN,MOST_RUNS_CSV_FILE_PATH);
-        String playerWithMax6 = iplLeagueAnalyser.playerWithMaxHundredAndBattingAvg();
-        Assert.assertEquals("David Warner", playerWithMax6);
+        String player= iplLeagueAnalyser.playerWithMaxHundredAndBattingAvg();
+        Assert.assertEquals("David Warner", player);
     }
 
+    // UC 16
+    @Test
+    public void playerWithoutHundredAndFiftyAndHaveBestBattingAvg() throws IPLAnalyserException {
+        IPLAnalyser iplLeagueAnalyser = new IPLAnalyser(IPLAnalyser.PlayerType.BATSMAN,MOST_RUNS_CSV_FILE_PATH);
+        String player = iplLeagueAnalyser.playerWithoutCenturyAndHalfCenturyAndHaveBestBattingAvg();
+        Assert.assertEquals("Marcus Stoinis", player);
+    }
 
 }

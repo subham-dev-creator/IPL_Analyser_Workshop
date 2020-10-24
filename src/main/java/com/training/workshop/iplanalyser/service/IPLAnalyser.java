@@ -245,6 +245,14 @@ public class IPLAnalyser {
         return  list.get(list.size()-1).player;
     }
 
-
+    // Returns Player Without 100s and 50s But have Best Batting Avg
+    public String playerWithoutCenturyAndHalfCenturyAndHaveBestBattingAvg() {
+        List<IPLMostRunsCSV> listWithoutHundredAndFifty = iplMostRunsList.stream().filter(i -> i.getFifties()==0 && i.getHundreds()==0).collect(Collectors.toList());
+        Comparator<IPLMostRunsCSV> compare = Comparator
+                .comparing(IPLMostRunsCSV::getAverage);
+        List<IPLMostRunsCSV> list = listWithoutHundredAndFifty.stream().sorted(compare).collect(Collectors.toList());
+        System.out.println("Player Without 100s and 50s And Have Best Batting Avg : " + list.get(list.size()-1).player);
+        return  list.get(list.size()-1).player;
+    }
 
 }
